@@ -22,6 +22,9 @@ libraryDependencies ++= Seq(
   /*DB access*/
   jdbc,
   evolutions,
+  "org.scalikejdbc" %% "scalikejdbc"                  % "3.2.0",
+  "org.scalikejdbc" %% "scalikejdbc-config"           % "3.2.0",
+  "org.scalikejdbc" %% "scalikejdbc-play-initializer" % "2.6.0-scalikejdbc-3.2",
   "mysql" % "mysql-connector-java" % "6.0.6",
 )
 
