@@ -7,8 +7,23 @@ lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
 scalaVersion := "2.12.3"
 
-libraryDependencies += guice
-libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.2" % Test
+resolvers ++= Seq(
+  "Scalaz Bintray Repo" at "https://dl.bintray.com/scalaz/releases",
+  "Atlassian Releases" at "https://maven.atlassian.com/public/",
+  "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots/",
+  Resolver.jcenterRepo
+)
+
+libraryDependencies ++= Seq(
+  /*Compile time DI*/
+  guice,
+  "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.2" % Test,
+
+  /*DB access*/
+  jdbc,
+  evolutions,
+  "mysql" % "mysql-connector-java" % "6.0.6",
+)
 
 // Adds additional packages into Twirl
 //TwirlKeys.templateImports += "com.iss.controllers._"
