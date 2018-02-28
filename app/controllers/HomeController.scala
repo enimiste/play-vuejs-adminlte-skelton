@@ -1,30 +1,27 @@
 package controllers
 
 import javax.inject._
-import play.api._
-import play.api.mvc._
+
 import play.api.db.Database
+import play.api.mvc._
+import scalikejdbc._
 
 /**
- * This controller creates an `Action` to handle HTTP requests to the
- * application's home page.
- */
+  * This controller creates an `Action` to handle HTTP requests to the
+  * application's home page.
+  */
 @Singleton
-class HomeController @Inject()(db: Database, cc: ControllerComponents) extends AbstractController(cc) {
+class HomeController @Inject()(cc: ControllerComponents) extends AbstractController(cc) {
 
- 
-  def index() = Action { implicit request: Request[AnyContent] =>
-     db withConnection { conn =>
-        val stmt = conn.createStatement
-        val rs = stmt.executeQuery("SELECT name FROM tests")
 
-        while (rs.next()) {
-          println(rs.getString("name"))
-        }
-      }
+  def index() = Action {
+    DB.readOnly { implicit session =>
+      sql"select name from tests".toMap.list.apply().foreach(println)
       Ok(views.html.index())
+    }
+
   }
-  
+
   def home() = Action { implicit request: Request[AnyContent] =>
     Ok(views.html.home(request))
   }
